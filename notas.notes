@@ -1,0 +1,165 @@
+Comandos usados:
+.- npm init --yes               //para inicializar un proyecto de node.js, este comando tambien crea el archivo
+                                //package.json el cual es un archivo de configuración en el que se registran las
+                                //dependencias del proyecto 
+.- node index.js                //para correr el codigo de index.js
+.- npm install express          //Instala el framework express
+.- npm i nodemon -D             //Instala nodemon, nodemon sirve para reiniciar el servidor cada vez que se realiza
+                                //algun cambio y es guardado el codigo, el parametro -D al final del comando es para indicar que es 
+                                //una dependencia de desarrollo
+.- npm install morgan --save    //Instala el middleware morgan el cual nos permite ver las solicitudes realizadas
+                                //al servidor, el parametro --save es para indicar que se debe agregar al archivo
+                                //package.json el cual contiene las dependencias del proyecto
+.- npm install cors --save      //El middleware cors nos permite hacer peticiones a nuestro servidor desde otros
+                                //computadores
+
+.- npm install --save babel-cli //Los siguientes dos comandos son para instalar babel, el cual es un transpilador
+                                //Babel nos permite hacer una transformación de codigo de EM5 a EM6
+.- npm install --save babel-preset-env babel-preset-stage-3//Para usar babel es neccesario crear un archivo de configuración
+
+.- npm install mongoose --save //
+
+.- npm install bcryptjs --save //biblioteca que nos permite encriptar passwords
+
+.- npm install jsonwebtoken --save  //Es un estandar abierto basado en json para crear un token que sirve para enviar datos entre usuarios y servicios y garantizar que sean validos y seguros 
+                                    //Cuando un usuario se loguea jsonwebtoken genera un token que sera verificado cada que el cliente realice una petición 
+
+Acerca de las carpetas:
+models contiene archivos js donde se crean los esquemas de las tablas de la base de datos
+controllers contiene los metodos que afectan a los registros de las tablas de la base de datos
+.- npm i express-promise-router --save //Gestiona las rutas
+Acerca del archivo package.json:
+En este archivo existe una sección llamada scrips, en esta sección se establecen unos comando y su forma de ejecutarse
+por ejemplo;
+[javascript]
+"scripts": {
+    "start": "node index.js",   //En este caso, el comando start es la abreviación del comando node index.js
+                                //y se ejecuta npm run start
+    "dev": "nodemon index.js --exec babel-node"//para este comando es lo mismo de arriba pero se ejecuta npm run dev
+                                            //--exec babel-node es para que se tradusca el codigo de EM5 a EM6
+  }
+
+  "dependencies": {//Sección de dependencias, enlista los paquetes que se usaron para el desarrollo del proyecto
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-stage-3": "^6.24.1",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "morgan": "^1.9.1"
+  },
+  "devDependencies": {//enlista las Dependencias de desarrollo,  
+    "nodemon": "^2.0.2"
+  }
+[end]
+
+carpeta public:
+En esta carpeta se guardan los archivos a los que el el cliente tendra acceso
+
+
+Mongoose:
+Es un marco de trabajo de javascript para nodejs y mongodb
+mongoose es un object document mapper, odm esto significa que mongoose
+permite definir objetos con un esquema fuertemente 
+tipado que se asigna a un documento mongodb
+
+[javascript]
+export default {  // exportamos las funciones 
+    add: async(req, res, next) => {
+      //request: solicitud, res: respuesta, next(callback o devolución de llamada a la función de middleware): llamado  a la  siguiente función
+    },
+    query:                  
+    update:                 
+    remove:                 
+    activate:               
+    deactivate:             
+}//Todas estas son funciones         
+    }
+[end]
+
+
+Pruebas PostMan:
+Post  http://localhost:3000/api/categoria/add       -Body
+                                                    nombre(string-50)
+                                                    descripcion(String-255)
+Get   http://localhost:3000/api/categoria/list
+Get   http://localhost:3000/api/categoria/query     -Query
+                                                    ?_id=texto
+Put   http://localhost:3000/api/categoria/update    -Body
+                                                    _id(String)
+                                                    nombre(string-50)
+                                                    descripcion(String-255)
+
+
+Filtrado y ordenado:
+archivo categroria controller
+
+el segundo parametro de la función find indica que campos se quieren mostra
+Por ejemplo: {createdAt:0} indica que se mostraran todos los campos excepto el "createdAt" 
+o {createdAt:0, nombre: 0} se mostraran todos los campos esceptuando los que se marcan con cero
+o {nombre:1} solo se mostrara el campo "nombre", sort({nombre:-1}) indica que se han de mostrar de manera 
+decendente tomando como referencia el campo "nombre" o sort({nombre:1}) de esta forma de manera acendente
+
+regExp:
+Proporciona capacidades de expresión regular para cadenas de coincidencia de patrones en las consultas, es algo similar a la sentencia 'like de SQL'.
+"i" es para coincidencia entre mayusculas y minusculas
+[javascript]
+find({nombre: new RegExp(valor, 'i')}, {createdAt: 0}).sort({createdAt:1});
+[end]
+el parametro valor es un patron que vamos a obtener de req.query.valor;
+
+//Cuando se hace una petición 
+   "http://localhost:3000/api/categoria/list?valor=pos"
+//                                          ^ el signo de interrogación indica que es un query y valor es la variable que espera el servidor 
+//                                            y esta se iguala a la cadena de la cual queremos que se haga la busqueda por coincidencia
+//                                            en este caso nos regresa el registro que contiene "nombre": "Equipos de computo" por que realizo la 
+//                                            coincidencia con EquioPOS de computo
+
+[javascript]
+find({$or:[
+              {'nombre': new RegExp(valor, 'i')},
+              {'descripcion': new RegExp(valor, 'i')}
+  ]},
+  {createdAt: 0}).sort({createdAt:1});
+[end]
+El ejemplo de arriba muestra como  se usa la condicional $or para hacer una busqueda que incluya otros criterios
+
+Orden:
+1.- Modelo
+      Cuando el modelo se importa al archivo index.js de la carpeta
+      modelos y al mismo tiempo ya se tiene la conexión con la base de datos de mongo 
+      y se corre el servidor, este en automatico realiza la alta del modelo en la base de datos
+2.- Controllers
+3.- Routes
+    
+
+//Para dar de alta un ingreso la información se tiene que enviar en formato json
+[javascript]
+{
+	"usuario":{"_id":"5e56cab8bdcd0c230cd303e0"},usuario:{type: Schema.ObjectId, ref: 'usuario', required: true}
+	"persona":{"_id":"5e5c1aa1ed6a0f1cc55f890f"},persona:{type: Schema.ObjectId, ref: 'persona', required: true},
+	"tipo_comprobante":"FACTURA",tipo_comprobante:{type: String, maxlength:20, required:true},
+	"serie_comprobante":"001",serie_comprobante:{type: String, maxlength:7},
+	"num_comprobante":"00002",num_comprobante:{type: String, maxlength:10, required:true},
+	"impuesto":"0.18",impuesto:{type: Number, required:true},
+	"total":"120",total:{type: Number, required:true},
+	"detalles":[detalles:[{//Aqui se especifica que detalles es un arreglo, es por eso que se dande alta los detalles de dos ingresos
+		{
+			"_id":"5e56b2f35bbe7a16d72cdfc9",_id:{type:String,required: true},
+			"articulo":"Impresora LX 200 Epson",articulo:{type:String,required: true},
+			"cantidad":"2",cantidad:{type:Number,required:true},
+			"precio":"30",precio:{type: Number,required: true}
+		},
+		{
+			"_id":"5e56b3565bbe7a16d72cdfca",
+			"articulo":"Teclado MultifuncionalTCM 200 Micronics",
+			"cantidad":"2",
+			"precio":"30"
+		}
+	]
+}
+[end]
+
+
+Instalación de vue:
+1.- Instalar Vue cli
+  cli.vuejs.org
