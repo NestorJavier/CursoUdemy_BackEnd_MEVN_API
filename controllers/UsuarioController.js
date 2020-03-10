@@ -99,7 +99,7 @@ export default {
             if(user){
                 let match = await bcrypt.compare(req.body.password, user.password);//bcrypt.compare regresa un booleano
                 if(match){          //Llamamos a la función token.encode y le pasamos como parametro el user._id para que genere un token para ese usuario
-                    let tokenReturn = await token.encode(user._id);
+                    let tokenReturn = await token.encode(user._id, user.rol, user.email);
                     res.status(200).json({user,tokenReturn});//Una vez que se genro el token, regresamos el user y el toke que se le ha asignado
                 }else{
                     res.status(404).send({

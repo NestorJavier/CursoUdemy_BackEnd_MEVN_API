@@ -10,9 +10,13 @@ router.post('/add', categoriaController.add);
 router.get('/query', auth.verifyAmacenero, categoriaController.query);
 //router.get('/list', auth.verifyAmacenero, categoriaController.list);
 router.get('/list', categoriaController.list);
-router.put('/update', auth.verifyAmacenero, categoriaController.update);
+//router.put('/update', auth.verifyAmacenero, categoriaController.update);
+router.put('/update', categoriaController.update);
 router.delete('/remove', auth.verifyAmacenero, categoriaController.remove);
-router.put('/activate', auth.verifyAmacenero, categoriaController.activate);
-router.put('/deactivate', auth.verifyAmacenero, categoriaController.deactivate);
+//router.put('/activate', auth.verifyAmacenero, categoriaController.activate);
+router.put('/activate', categoriaController.activate);
+//router.put('/deactivate', auth.verifyAmacenero, categoriaController.deactivate);
+router.put('/deactivate', categoriaController.deactivate);
 
 export default router;
+ 

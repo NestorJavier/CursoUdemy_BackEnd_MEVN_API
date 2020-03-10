@@ -19,8 +19,8 @@ async function checkToken(token){//Para hacer que la sesión se mantenga siempre
 }
 
 export default{
-    encode: async(_id) =>{      //Primer parametro es el id, segundo parametro es una cadena de texto que es una clave secreta para generar los token, tercer parametro es el tiempo de duración del token, ya sea un minuto una hora o un dia
-        const token = jwt.sign({_id: _id}, 'clavesecretatoken', {expiresIn: '1d'});
+    encode: async(_id, rol, email) =>{      //Primer parametro es el id, segundo parametro es una cadena de texto que es una clave secreta para generar los token, tercer parametro es el tiempo de duración del token, ya sea un minuto una hora o un dia
+        const token = jwt.sign({_id: _id, rol: rol, email: email}, 'clavesecretatoken', {expiresIn: '1d'});
         return token;
     },
     decode: async(token) =>{
