@@ -52,7 +52,7 @@ export default {
             let valor = req.query.valor;
             const reg = await models.Venta.find({$or:[{'num_comprobante': new RegExp(valor, 'i')},{'serie_comprobante': new RegExp(valor, 'i')}]})
             .populate('usuario', {nombre:1})
-            .populate('persona', {nombre:1})
+            .populate('persona', {nombre:1, direccion:1, num_documento:1, telefono:1, email:1})
             .sort({createdAt:1});
             res.status(200).json(reg);
         } catch (e) {                                                   
