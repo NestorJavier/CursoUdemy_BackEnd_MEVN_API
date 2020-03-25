@@ -1,0 +1,1 @@
+{"options":{},"indexes":[{"v":{"$numberInt":"2"},"key":{"_id":{"$numberInt":"1"}},"name":"_id_","ns":"dbsistema.categorias"},{"v":{"$numberInt":"2"},"unique":true,"key":{"nombre":{"$numberInt":"1"}},"name":"nombre_1","ns":"dbsistema.categorias","background":true}],"uuid":"8c45ee286d3d49d29768ea1639c7b736"}

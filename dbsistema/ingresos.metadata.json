@@ -1,0 +1,1 @@
+{"options":{},"indexes":[{"v":{"$numberInt":"2"},"key":{"_id":{"$numberInt":"1"}},"name":"_id_","ns":"dbsistema.ingresos"}],"uuid":"f463b1125aeb49f7b39311b3429dc6d0"}
